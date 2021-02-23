@@ -1,0 +1,28 @@
+plugins {
+    id 'groovy'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    // Define the main class for the application.
+    mainClass.set('com.ainrif.gears.acorn.App')
+}
+
+dependencies {
+    implementation platform("org.codehaus.groovy:groovy-bom:3.0.7")
+    implementation 'org.codehaus.groovy:groovy'
+    implementation 'org.codehaus.groovy:groovy-templates'
+
+    // Use the awesome Spock testing and specification framework even with Java
+    testImplementation platform('org.spockframework:spock-bom:2.0-M4-groovy-3.0')
+    testImplementation 'org.spockframework:spock-core'
+}
+
