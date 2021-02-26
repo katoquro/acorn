@@ -3,6 +3,9 @@ plugins {
     id 'application'
 }
 
+group('com.ainrif.gears')
+version('0.0.0')
+
 repositories {
     mavenCentral()
 }
@@ -13,7 +16,7 @@ test {
 
 application {
     // Define the main class for the application.
-    mainClass.set('com.ainrif.gears.acorn.App')
+    mainClass.set('com.ainrif.gears.acorn.AcornCli')
 }
 
 dependencies {
