@@ -9,6 +9,11 @@ allprojects {
         mavenCentral()
     }
 
+    java {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
     test {
         useJUnitPlatform()
     }
@@ -24,10 +29,13 @@ allprojects {
     dependencies {
         constraints {
             def slf4jVersion = '1.7.30'
+            implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+            implementation "org.slf4j:slf4j-simple:${slf4jVersion}"
             implementation "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
             implementation "org.slf4j:log4j-over-slf4j:${slf4jVersion}"
             implementation "org.slf4j:osgi-over-slf4j:${slf4jVersion}"
-            implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+
+            implementation 'info.picocli:picocli:4.6.1'
         }
 
         implementation 'org.slf4j:slf4j-api'

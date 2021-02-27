@@ -8,5 +8,7 @@ application {
 
 dependencies {
     implementation project(':core')
-}
 
+    implementation 'info.picocli:picocli'
+    implementation 'org.slf4j:slf4j-simple'
+}
