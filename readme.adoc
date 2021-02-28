@@ -1,0 +1,78 @@
+= Acorn
+Grow your project tree from acorn
+
+Acorn is a simple file tree template engine inspired by https://github.com/pledbrook/lazybones[lazybones] project.
+
+The Acorn lets you create archetypes for any kind of project or file structures.
+
+== Getting Started
+
+The Acorn has two version: Groovy (Java) library and CLI for it.
+
+Get library from
+https://search.maven.org/search?q=g:%22com.ainrif.acorn%22[Maven Central Repo]
+
+- group: `com.ainrif.acorn`
+- artifact: `core`
+- version: image:https://img.shields.io/maven-central/v/com.ainrif.acorn/core?color=blue&style=flat-square[Artifact Version]
+
+CLI App can be downloaded from https://github.com/ainrif/acorn/releases[GitHub Release page]
+
+== Features
+
+=== Content parametrisation
+
+Replace placeholders with given data
+
+.simple.txt.tmpl
+----
+Dear ${user}. You have ${count} thing${count > 1 ? 's' : ''} in your cart.
+Total price is \$${totalPrice}
+----
+
+=== Template scripting
+
+You can use groovy for scripting inside file templates because they are https://docs.groovy-lang.org/latest/html/api/groovy/text/GStringTemplateEngine.html[GStringTemplateEngine]
+
+.advanced.txt.tmpl
+----
+Dear <%= user%>. You have <% out << count %> thing<%
+ if (count > 1) {
+    out << 's'
+ }
+ %> in your cart.
+Total price is \$${totalPrice}
+----
+
+=== File name parametrisation
+
+Placeholders can be used in plain file and template names
+
+----
+./src
+└── ${nameVar}-file.txt
+└── ${nameVar}.txt.tmpl
+----
+
+=== Generate folder path with placeholders
+
+You can generate nested hierarchy by templating folder names
+
+----
+./src
+├── ${emptyValue}
+│   └── file-in-root.txt
+├── ${folderVar}
+│   └── nested-file.txt
+└── ${nameVar}-file.txt
+
+params: [nameVar: 'named', folderVar: 'one/two/three', emptyValue: '']
+
+./dest
+├── file-in-root.txt
+├── named-file.txt
+└── one
+    └── two
+        └── three
+            └── nested-file.txt
+----
