@@ -98,10 +98,11 @@ class AcornSpec extends Specification {
         def dest = destBasePath.resolve(destDirName)
 
         when:
-        new Acorn(src, dest, [nameVar: 'named', folderVar: 'one/two/three']).generate()
+        new Acorn(src, dest, [nameVar: 'named', folderVar: 'one/two/three', emptyValue: '']).generate()
 
         then:
         dest.resolve('named-file.txt').toFile().exists()
+        dest.resolve('file-in-root.txt').toFile().exists()
         dest.resolve('one').resolve('two').resolve('three').resolve('nested-file.txt').toFile().exists()
     }
 
@@ -123,6 +124,28 @@ class AcornSpec extends Specification {
         with(dest.resolve('one').resolve('two').resolve('three').resolve('second-file.txt').toFile()) {
             it.exists()
             it.file
+        }
+    }
+
+    def "escape chars should work correctly"() {
+        given:
+        def src = srcBasePath.resolve('escape-chars')
+        def destDirName = specificationContext.currentIteration.name.replaceAll(/[^\w]/, '')
+        def dest = destBasePath.resolve(destDirName)
+        def expected = 'Dear Andrew. You have 2 things in your cart.\nTotal price is $18'
+
+        when:
+        new Acorn(src, dest, [user: 'Andrew', count: 2, totalPrice: 18]).generate()
+
+        then:
+        with(dest.resolve('simple.txt').toFile()) {
+            it.exists()
+            it.text == expected
+        }
+
+        with(dest.resolve('advanced.txt').toFile()) {
+            it.exists()
+            it.text == expected
         }
     }
 }

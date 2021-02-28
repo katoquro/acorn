@@ -9,5 +9,5 @@ import java.nio.file.Path
 class CmdArgs {
     Path src
     Path dest
-    Map<String, String> params
+    Map<String, Object> params
 }

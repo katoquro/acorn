@@ -25,4 +25,10 @@ class AcornCliSpec extends Specification {
                                                                                          'param-3': 'three'])
         ]
     }
+
+    def "params can be parsed as numbers"() {
+        expect:
+        AcornCli.parseArgs('-s any -d any -ptxt=42.a -pone=42 -p two=42.42 -p three=1. -p four=1.0000'.split(/ /)).params ==
+                [txt: '42.a', one: 42, two: 42.42, three: 1, four: 1.0000]
+    }
 }

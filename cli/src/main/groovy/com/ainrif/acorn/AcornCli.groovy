@@ -46,10 +46,21 @@ class AcornCli {
             throw ExitException.ok()
         }
 
+        pr.matchedOptionValue('param', new HashMap<String, String>())
+                .entrySet()
+                .each {
+                    try {
+                        def parsed = new BigDecimal(it.value)
+                        it.value = parsed
+                    } catch (NumberFormatException ignore) {
+                        // no-op
+                    }
+                }
+
         return new CmdArgs(
                 src: pr.matchedOption('src').value as Path,
                 dest: pr.matchedOption('dest').value as Path,
-                params: pr.matchedOptionValue('param', new HashMap<String, String>())
+                params: pr.matchedOptionValue('param', new HashMap<String, Object>())
         )
     }
 
@@ -71,7 +82,7 @@ class AcornCli {
                         .build())
                 .addOption(OptionSpec.builder('-p', '--param')
                         .required(false)
-                        .type(Map).auxiliaryTypes(String, String)
+                        .type(Map).auxiliaryTypes(String, Object)
                         .paramLabel('KEY=VALUE')
                         .description('Params to render template')
                         .build())
