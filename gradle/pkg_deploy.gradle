@@ -1,0 +1,93 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+ext.sharedManifest = manifest {
+    attributes 'Implementation-Vendor': group,
+            'Implementation-Title': name,
+            'Implementation-Version': version
+}
+
+jar {
+    manifest {
+        from sharedManifest
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set('javadoc')
+    from javadoc
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+    manifest {
+        from sharedManifest
+    }
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+publishing {
+    publications {
+        mavenCentral(MavenPublication) {
+            customizePom(pom)
+
+            from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+signing {
+    required { gradle.taskGraph.hasTask('publish') }
+    sign publishing.publications.mavenCentral
+}
+
+void customizePom(pom) {
+    pom.withXml {
+        def root = asNode()
+
+        def githubPage = 'https://github.com/ainrif/acorn'
+
+        root.children().last() + {
+            resolveStrategy = Closure.DELEGATE_FIRST
+
+            name project.name
+            description 'The Acorn lets you create archetypes for any kind of project or file structures.'
+
+            url githubPage
+
+            organization {
+                name 'Ainrif'
+                url 'https://github.com/ainrif'
+            }
+            licenses {
+                license {
+                    name 'Apache License 2.0'
+                    url "${githubPage}/blob/master/LICENSE"
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url githubPage
+                connection "scm:git:${githubPage}.git"
+                developerConnection 'scm:git:git@github.com:ainrif/acorn.git'
+            }
+            issueManagement {
+                system 'GitHub'
+                url "${githubPage}/issues"
+            }
+            developers {
+                developer {
+                    name 'Andrew Malyhin'
+                    email 'katoquro@gmail.com'
+                }
+            }
+        }
+    }
+}

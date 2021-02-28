@@ -2,3 +2,4 @@ dependencies {
     implementation 'org.codehaus.groovy:groovy-templates'
 }
 
+apply from: "$rootDir/gradle/pkg_deploy.gradle"
