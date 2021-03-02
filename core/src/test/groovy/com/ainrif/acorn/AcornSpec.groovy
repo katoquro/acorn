@@ -98,11 +98,13 @@ class AcornSpec extends Specification {
         def dest = destBasePath.resolve(destDirName)
 
         when:
-        new Acorn(src, dest, [nameVar: 'named', folderVar: 'one/two/three', emptyValue: '']).generate()
+        new Acorn(src, dest, [nameVar: 'named', folderVar: 'one/two/three', emptyValue: '', partFolderVar: 'Folder'])
+                .generate()
 
         then:
         dest.resolve('named-file.txt').toFile().exists()
         dest.resolve('file-in-root.txt').toFile().exists()
+        dest.resolve('partFolderName').resolve('nested-file.txt').toFile().exists()
         dest.resolve('one').resolve('two').resolve('three').resolve('nested-file.txt').toFile().exists()
     }
 

@@ -39,7 +39,7 @@ class Acorn {
             def fileName = it.name
 
             if (it.isDirectory()) {
-                String destPath = fileName.startsWith('${') ?
+                String destPath = fileName.contains('${') ?
                         simpleEngine.createTemplate(fileName).make(params).toString() :
                         fileName
 
