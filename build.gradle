@@ -1,5 +1,5 @@
 plugins {
-    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
 }
 
 nexusPublishing {
@@ -12,7 +12,7 @@ allprojects {
     apply plugin: 'groovy'
 
     group 'com.ainrif.acorn'
-    version '0.2.0'
+    version '0.3.0'
 
     repositories {
         mavenLocal()
@@ -20,8 +20,8 @@ allprojects {
     }
 
     java {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     test {
@@ -37,27 +37,27 @@ allprojects {
     }
 
     dependencies {
+        implementation platform("org.apache.groovy:groovy-bom:4.0.4")
+
         constraints {
-            def slf4jVersion = '1.7.30'
+            def slf4jVersion = '1.7.36'
             implementation "org.slf4j:slf4j-api:${slf4jVersion}"
             implementation "org.slf4j:slf4j-simple:${slf4jVersion}"
             implementation "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
             implementation "org.slf4j:log4j-over-slf4j:${slf4jVersion}"
             implementation "org.slf4j:osgi-over-slf4j:${slf4jVersion}"
 
-            implementation 'info.picocli:picocli:4.6.1'
+            implementation 'info.picocli:picocli:4.6.3'
         }
 
         implementation 'org.slf4j:slf4j-api'
-
-        implementation platform("org.codehaus.groovy:groovy-bom:3.0.7")
-        implementation 'org.codehaus.groovy:groovy'
+        implementation 'org.apache.groovy:groovy'
 
         compileOnly 'org.slf4j:jcl-over-slf4j'
         compileOnly 'org.slf4j:log4j-over-slf4j'
         compileOnly 'org.slf4j:osgi-over-slf4j'
 
-        testImplementation platform('org.spockframework:spock-bom:2.0-M4-groovy-3.0')
+        testImplementation platform('org.spockframework:spock-bom:2.2-M3-groovy-4.0')
         testImplementation 'org.spockframework:spock-core'
     }
 }

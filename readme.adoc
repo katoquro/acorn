@@ -5,6 +5,8 @@ Acorn is a simple file tree template engine inspired by https://github.com/pledb
 
 The Acorn lets you create archetypes for any kind of project or file structures.
 
+NOTE: Since 0.3.0 Acorn requires Java 17+
+
 == Getting Started
 
 The Acorn has two version: Groovy (Java) library and CLI for it.
@@ -76,3 +78,12 @@ params: [nameVar: 'named', folderVar: 'one/two/three', emptyValue: '']
         └── three
             └── nested-file.txt
 ----
+
+== Acorn Development
+
+=== Release
+
+- configure `~/.gradle/gradle.properties` and import `Ainrif General GPG`.
+- call `gw clean build publishToSonatype closeAndReleaseSonatypeStagingRepository` to release lib.
+- tag release commit with version `git tag <version from build.gradle> && git push --tags`
+- create https://github.com/ainrif/acorn/releases/new[new release] with binary in GitHub manually  

@@ -4,6 +4,7 @@ plugins {
 
 application {
     mainClass.set('com.ainrif.acorn.AcornCli')
+    applicationName = rootProject.name
 }
 
 dependencies {
