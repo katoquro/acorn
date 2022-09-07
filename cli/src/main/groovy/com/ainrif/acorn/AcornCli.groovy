@@ -14,7 +14,8 @@ class AcornCli {
     static void main(String[] args) {
         try {
             CmdArgs cmdArgs = parseArgs(args)
-            new Acorn(cmdArgs.src, cmdArgs.dest, new HashMap<String, Object>())
+            def acorn = new Acorn(cmdArgs.src, cmdArgs.dest, cmdArgs.params)
+            acorn.generate()
         } catch (ExitException ee) {
             ee.description.ifPresent {
                 log.error(it)

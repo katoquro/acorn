@@ -1,6 +1,5 @@
 package com.ainrif.acorn
 
-import com.ainrif.acorn.Acorn
 import spock.lang.Specification
 
 import java.nio.file.Path
@@ -10,13 +9,19 @@ class AcornSpec extends Specification {
     Path srcBasePath = Path.of(System.getProperty('user.dir'), 'src/test/resources/test-data')
     Path destBasePath = File.createTempDir('acorn-test').toPath()
 
-    def "acorn can generate result for empty src"() {
+    def "acorn can generate dest from folder with only the HOLDER"() {
         when: "select folder for destination"
         def destDirName = specificationContext.currentIteration.name.replaceAll(/[^\w]/, '')
         def dest = destBasePath.resolve(destDirName)
 
-        then: "first run in doesn't exist"
+        then: "destination doesn't exist"
         !dest.toFile().exists()
+
+        when:
+        new Acorn(srcBasePath.resolve('there-are-no-such-folder'), dest, [:]).generate()
+
+        then:
+        thrown(ExitException)
 
         when:
         def acorn = new Acorn(srcBasePath.resolve('empty'), dest, [:])
@@ -33,7 +38,7 @@ class AcornSpec extends Specification {
         acorn.generate()
 
         then:
-        noExceptionThrown()
+        thrown(ExitException)
     }
 
     def "nested folder structure can be copied"() {

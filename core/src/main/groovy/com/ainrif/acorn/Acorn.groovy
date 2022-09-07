@@ -2,39 +2,41 @@ package com.ainrif.acorn
 
 import groovy.text.GStringTemplateEngine
 import groovy.text.SimpleTemplateEngine
+import groovy.util.logging.Slf4j
 
 import java.nio.file.Files
 import java.nio.file.Path
 
 import static java.nio.charset.StandardCharsets.UTF_8
 
+@Slf4j
 class Acorn {
     public static final String TMPL_EXT = '.tmpl'
     public static final String HOLDER_FILE = 'HOLDER'
 
-    final Path src
-    final Path dest
+    final File src
+    final File dest
     final Map<String, Object> params
     final SimpleTemplateEngine simpleEngine
     final GStringTemplateEngine gStringEngine
 
     Acorn(Path src, Path dest, Map<String, Object> params) {
-        this.src = src
-        this.dest = dest
+        this.src = src.toFile()
+        this.dest = dest.toFile()
         this.params = params
         this.simpleEngine = new SimpleTemplateEngine()
         this.gStringEngine = new GStringTemplateEngine()
     }
 
     void generate() {
-        new Validator().validate()
+        validate()
 
-        dest.toFile().mkdirs()
-
-        copyDir(src.toFile(), dest.toFile())
+        copyDir(src, dest)
     }
 
     void copyDir(File srcDir, File destDir) {
+        log.debug('Process - {}', srcDir.absolutePath)
+
         srcDir.eachFile {
             def fileName = it.name
 
@@ -74,7 +76,31 @@ class Acorn {
                 return
             }
 
-            throw new RuntimeException("UNSUPPORTED FILE TYPE")
+            throw new ExitException(1, "UNSUPPORTED FILE TYPE")
+        }
+    }
+
+    void validate() {
+        if (!src.exists()) {
+            throw new ExitException(40, "SRC path doesn't exists. ${src.absolutePath}")
+        }
+
+        if (!src.canRead()) {
+            throw new ExitException(40, "SRC path cannot be read. ${src.absolutePath}")
+        }
+
+        if (0 == src.list().length) {
+            throw new ExitException(40, "SRC path directory is empty. ${src.absolutePath}")
+        }
+
+        if (dest.exists()) {
+            throw new ExitException(40, "DEST already exists. ${dest.absolutePath}")
+        }
+
+        try {
+            dest.mkdirs()
+        } catch (SecurityException ignore) {
+            throw new ExitException(40, "DEST path cannot be created. ${dest.absolutePath}")
         }
     }
 }
