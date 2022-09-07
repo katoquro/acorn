@@ -1,5 +1,7 @@
 = Acorn
-Grow your project tree from acorn
+:toc:
+
+Grow your project tree from acorn!
 
 Acorn is a simple file tree template engine inspired by https://github.com/pledbrook/lazybones[lazybones] project.
 
@@ -11,26 +13,53 @@ NOTE: Since 0.3.0 Acorn requires Java 17+
 
 The Acorn has two version: Groovy (Java) library and CLI for it.
 
-Get library from
+=== Get library for scripts and code
+
 https://search.maven.org/search?q=g:%22com.ainrif.acorn%22[Maven Central Repo]
 
 - group: `com.ainrif.acorn`
 - artifact: `core`
 - version: image:https://img.shields.io/maven-central/v/com.ainrif.acorn/core?color=blue&style=flat-square[Artifact Version]
 
-CLI App can be downloaded from https://github.com/ainrif/acorn/releases[GitHub Release page]
+=== Get binary to use in system
+
+- Install via https://github.com/katoquro/lmm[lmm] : `lmm i kato.acorn`
+- Download and unpack from https://github.com/ainrif/acorn/releases[GitHub Release page]
+
+=== Usage
+
+[source]
+----
+; acorn --help
+
+Usage: acorn [-hV] -d=PATH -s=PATH [-p=KEY=VALUE]...
+  -d, --dest=PATH         Destination directory. Will be created if absent
+  -h, --help              Show this help message and exit.
+  -p, --param=KEY=VALUE   Params to render template
+  -s, --src=PATH          Template source directory
+  -V, --version           Print version information and exit.
+----
 
 == Features
 
 === Content parametrisation
 
-Replace placeholders with given data
+Replace placeholders with given data in files with extension `.tmpl`
 
 .simple.txt.tmpl
 ----
 Dear ${user}. You have ${count} thing${count > 1 ? 's' : ''} in your cart.
 Total price is \$${totalPrice}
 ----
+
+With next params `user=Joe`, `count=2`, `totalPrice=42` the file above will be resolved into file w/o `.tmpl` extension
+
+.simple.txt
+----
+Dear Joe. You have 2 things in your cart.
+Total price is $42 <1>
+----
+<1> - to escape the `$` sign use `\`
 
 === Template scripting
 
@@ -45,6 +74,8 @@ Dear <%= user%>. You have <% out << count %> thing<%
  %> in your cart.
 Total price is \$${totalPrice}
 ----
+
+This template will be rendered the same as previous one but uses full-fledged programming language in it
 
 === File name parametrisation
 
@@ -77,6 +108,18 @@ params: [nameVar: 'named', folderVar: 'one/two/three', emptyValue: '']
     └── two
         └── three
             └── nested-file.txt
+----
+
+=== Folder holder
+
+If you store your templates in `git` you cannot store here empty folder.
+To keep structure of empty folders use file with name `HOLDER`.
+Acorn just ignore them and creates empty folder.
+
+----
+./src
+└── empty-folder
+    └── HOLDER
 ----
 
 == Acorn Development

@@ -1,11 +1,7 @@
 package com.ainrif.acorn
 
 class Validator {
-    Validator() {
-
-    }
-
     void validate() {
-        // TODO katoquro: 26/02/2021 validator
+        // TODO katoquro: 07/09/2022 access rights
     }
 }
