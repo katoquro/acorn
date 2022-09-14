@@ -66,6 +66,7 @@ Total price is $42 <1>
 You can use groovy for scripting inside file templates because they are https://docs.groovy-lang.org/latest/html/api/groovy/text/GStringTemplateEngine.html[GStringTemplateEngine]
 
 .advanced.txt.tmpl
+[source,jsp]
 ----
 Dear <%= user%>. You have <% out << count %> thing<%
  if (count > 1) {
