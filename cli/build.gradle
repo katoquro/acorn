@@ -3,7 +3,7 @@ plugins {
 }
 
 application {
-    mainClass.set('com.ainrif.acorn.AcornCli')
+    mainClass.set('com.ainrif.acorn.cli.AcornCli')
     applicationName = rootProject.name
     version = '' // to remove version from artefact name
 }

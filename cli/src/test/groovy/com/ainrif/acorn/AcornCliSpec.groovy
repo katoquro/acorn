@@ -1,5 +1,7 @@
 package com.ainrif.acorn
 
+import com.ainrif.acorn.cli.AcornCli
+import com.ainrif.acorn.cli.CmdArgs
 import spock.lang.Specification
 import spock.lang.Unroll
 

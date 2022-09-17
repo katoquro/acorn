@@ -1,5 +1,7 @@
-package com.ainrif.acorn
+package com.ainrif.acorn.cli
 
+import com.ainrif.acorn.core.Acorn
+import com.ainrif.acorn.core.ExitException
 import groovy.util.logging.Slf4j
 import picocli.CommandLine
 
@@ -87,6 +89,6 @@ class AcornCli {
                         .paramLabel('KEY=VALUE')
                         .description('Params to render template')
                         .build())
-                .versionProvider({ new String[]{AcornCli.package.implementationVersion ?: 'UNPACKED'} })
+                .versionProvider({ new String[]{Acorn.package.implementationVersion ?: 'UNPACKED'} })
     }
 }

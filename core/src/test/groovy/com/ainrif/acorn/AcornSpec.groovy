@@ -1,5 +1,7 @@
 package com.ainrif.acorn
 
+import com.ainrif.acorn.core.Acorn
+import com.ainrif.acorn.core.ExitException
 import spock.lang.Specification
 
 import java.nio.file.Path

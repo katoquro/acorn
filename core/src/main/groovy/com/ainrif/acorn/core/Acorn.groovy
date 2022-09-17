@@ -1,4 +1,4 @@
-package com.ainrif.acorn
+package com.ainrif.acorn.core
 
 import groovy.text.GStringTemplateEngine
 import groovy.text.SimpleTemplateEngine

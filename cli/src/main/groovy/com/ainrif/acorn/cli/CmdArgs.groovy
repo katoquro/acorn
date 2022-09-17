@@ -1,4 +1,4 @@
-package com.ainrif.acorn
+package com.ainrif.acorn.cli
 
 
 import groovy.transform.EqualsAndHashCode
